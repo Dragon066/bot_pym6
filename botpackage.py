@@ -5,7 +5,6 @@ from aiogram.dispatcher.filters import Text
 from aiogram.dispatcher.filters.state import State, StatesGroup
 from aiogram.utils import executor
 
-from modules.logger import log
 import sys
 import yaml
 import re
@@ -20,6 +19,8 @@ import hashlib
 import asyncio
 from io import StringIO, BytesIO
 from apscheduler.schedulers.asyncio import AsyncIOScheduler
+
+from modules.logger import log
 
 log.info('--------------------------------------')
 log.info('Библиотеки загружены')

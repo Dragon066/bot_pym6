@@ -14,7 +14,7 @@ try:
         scheduler.add_job(gmail_update_msgs, 'interval', minutes=10)
 
     async def sched_holidays():
-        await bot.send_message(admgroup, get_holidays())
+        await bot.send_message(ADM_GROUP, get_holidays())
 
     if SEND_HD:
         if config['MODULES']['holidays']:

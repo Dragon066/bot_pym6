@@ -137,7 +137,7 @@ async def get_creds():
                 token.write(creds.to_json())
     except Exception as err:
         log.exception('Ошибка получения токена Gmail')
-        await bot.send_message(admgroup, f'<b>❗ Ошибка получения токена GMAIL:</b>\n\n{err}')
+        await bot.send_message(ADM_GROUP, f'<b>❗ Ошибка получения токена GMAIL:</b>\n\n{err}')
     return creds
 
 
