@@ -6,6 +6,7 @@ from modules.files import *
 from bs4 import BeautifulSoup
 import base64
 import os.path
+from lxml import html
 
 from google.auth.transport.requests import Request
 from google.oauth2.credentials import Credentials
