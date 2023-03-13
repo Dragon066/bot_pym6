@@ -112,7 +112,7 @@ def get_keyboard_files(dir, page=0):
     for file in files[page : page + 7]:
         if file == '_private':
             continue
-        ext = file[file.rfind('.') + 1:]
+        ext = file[file.rfind('.') + 1:].lower()
         ext = ext[:ext.find(' ')] if ' ' in ext else ext
         if ext in file_types:
             ext = file_types[ext]
@@ -211,7 +211,7 @@ async def callback_file(call):
                                             text=f'🔎 Просматриваю:\n<i>{dir}</i>', reply_markup=get_keyboard_files(dir))
             if os.path.isfile(dir):
                 await call.answer(f'Отправляю {dir[dir.rfind("/") + 1:]}...')
-                ext = dir[dir.rfind('.') + 1:]
+                ext = dir[dir.rfind('.') + 1:].lower()
                 capt = None
                 if not FILES[dir]['id']:
                     file = open(dir, 'rb')
