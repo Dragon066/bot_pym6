@@ -280,7 +280,14 @@ async def gmail_update_msgs():
 
 
 async def send_new_mails(mails):
-    await bot.send_message(GROUP, f'📬 <b>Обнаружены новые сообщения на почте!</b>\n<i>Количество: {len(mails)}</i>')
+    text = f'📬 <b>Обнаружено {len(mails)} '
+    if len(mails) == 1:
+        text += 'новое письмо на почте!</b>'
+    elif len(mails) % 10 in (2, 3, 4) and len(mails) not in (12, 13, 14):
+        text += 'новых письма на почте!</b>'
+    else:
+        text += 'новых писем на почте!</b>'
+    await bot.send_message(GROUP, text)
     for id in mails:
         text = get_mail(id)
         if len(mails) < 5:
