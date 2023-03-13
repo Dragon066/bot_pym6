@@ -34,7 +34,7 @@ except Exception as ex:
 
 token = config['SECURITY']['token'] if not config['SECURITY']['test_bot'] else config['SECURITY']['token2']
 
-bot = Bot(token=token, parse_mode='HTML')
+bot = Bot(token=token, parse_mode='HTML', disable_web_page_preview=True)
 storage = MemoryStorage()
 dp = Dispatcher(bot, storage=storage)
 scheduler = AsyncIOScheduler({'apscheduler.timezone': 'Europe/Moscow'})

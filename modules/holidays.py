@@ -3,7 +3,7 @@ from bs4 import BeautifulSoup
 
 @dp.message_handler(commands=['holidays', 'hd'])
 async def com_get_holidays(msg):
-    await msg.answer(get_holidays(), disable_web_page_preview=True)
+    await msg.answer(get_holidays())
 
 
 def get_holidays_response():
