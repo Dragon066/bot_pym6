@@ -276,6 +276,7 @@ async def gmail_update_msgs():
         optimize_mail()
         save_mail()
         await send_new_mails(new_mails)
+        update_files()
 
 
 async def send_new_mails(mails):

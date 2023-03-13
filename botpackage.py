@@ -63,3 +63,36 @@ UPTIME = dt.datetime.now()
 from modules.service import *
 from modules.permissions import *
 update_users()
+
+if config['MODULES']['homework']:
+    from modules.homework import *
+
+    update_hw_file()
+
+if config['MODULES']['holidays']:
+    from modules.holidays import *
+
+if config['MODULES']['commands']:
+    from modules.commands import *
+
+if config['MODULES']['files']:
+    from modules.files import *
+
+    update_files()
+
+if config['MODULES']['ruz']:
+    from modules.ruz import *
+
+if config['MODULES']['gmail']:
+    from modules.gmail import *
+
+    load_mail()
+
+if config['MODULES']['code']:
+    from modules.code import *
+
+if config['MODULES']['open']:
+    from modules.open import *
+
+if config['MODULES']['sched']:
+    from modules.sched import *

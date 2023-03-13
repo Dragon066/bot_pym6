@@ -195,7 +195,7 @@ async def com_files(msg):
 
 @dp.callback_query_handler(Text(startswith='f,'))
 async def callback_file(call):
-    if dt.datetime.now() + dt.timedelta(hours=12) > call.message.date:
+    if dt.datetime.now() - dt.timedelta(hours=10) < call.message.date:
         dir = get_dir(call.data.split(',')[1])
         if len(call.data.split(',')) > 2:
             page = int(call.data.split(',')[2])
@@ -239,7 +239,7 @@ async def callback_file(call):
                     save_files()
     else:
         await bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.message_id,
-                                    text=f'К сожалению, эта файловая сессия истекла. 😔\nОткройте новую с помощью /files')
+                                    text=f'К сожалению, эта файловая сессия <b>истекла</b>. 😔\nОткройте новую с помощью /files')
 
 
 @dp.callback_query_handler(Text(startswith='uf,'))
