@@ -88,9 +88,10 @@ async def com_logs(msg):
         try:
             with open('files/logs.txt', 'r', encoding='utf-8') as f:
                 text = f.read()[-4096:]
-            text = text[text.find('\n'):]
-            text = text.replace('<', '&lt').replace('>', '&gt')
-            await msg.answer(text)
+                text = text[text.find('\n'):]
+            if len(msg.text.split()) == 1 and '--------------------------------------' in text:
+                text = text[text.rfind('--------------------------------------'):]
+            await msg.answer(text, parse_mode=None)
         except Exception as ex:
             await msg.answer(f'😱 Возникла ошибка при загрузке логов:\n<i>{ex}</i>')
             log.exception('Ошибка загрузки логов')
