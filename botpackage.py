@@ -51,6 +51,7 @@ HOMEWORK_path = config['PATH']['homework']
 MEDIA_path = config['PATH']['media']
 RUZ_path = config['PATH']['ruz']
 FILES_path = config['PATH']['files']
+STATS_path = config['PATH']['stats']
 
 users_backup_path = config['PATH']['users_backup']
 homework_backup_path = config['PATH']['homework_backup']
@@ -62,6 +63,7 @@ UPTIME = dt.datetime.now()
 
 from modules.service import *
 from modules.permissions import *
+from modules.statistics import *
 update_users()
 
 if config['MODULES']['homework']:

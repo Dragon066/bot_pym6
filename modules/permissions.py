@@ -56,16 +56,19 @@ def save_users():
 
 def checkright(msg, right='-'):
     id, right = msg.from_user.id, arguments(msg.text)['com'] if right == '-' else right
+    from modules.statistics import stat
     try:
         for r in user_rights(id).split(', '):
             try:
                 if re.fullmatch(r, right):
+                    stat(msg)
                     return True
             except Exception as error:
                 continue
     except Exception as err:
         log.exception('Ошибка при проверке права')
     if right in user_rights(id):
+        stat(msg)
         return True
     return False
 
