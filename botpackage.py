@@ -45,6 +45,7 @@ GROUP_NAME = config['SECURITY']['group_name']
 BOT_ID = int(config['SECURITY']['bot_id'])
 
 SEND_HD = int(config['SETTINGS']['send_hd'])
+SEND_STATS = int(config['SETTINGS']['send_stats'])
 
 USERS_path = config['PATH']['users']
 HOMEWORK_path = config['PATH']['homework']

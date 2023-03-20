@@ -9,15 +9,15 @@ async def com_get_stats(msg):
         await msg.answer(get_stats())
 
 
-def stat(msg, com=None):
-    if not com:
-        command = msg.text.split()[0][1:]
-    else:
-        command = com
+def stat(command):
     if command in STATS:
         STATS[command] += 1
     else:
         STATS[command] = 1
+
+
+def clear_stats():
+    STATS = {}
 
 
 def get_stats():

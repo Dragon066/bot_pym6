@@ -66,7 +66,7 @@ def get_keyboard_dates(start, id):
 
 @dp.message_handler(commands=['hw'])
 async def com_hw(msg):
-    if checkright(msg, 'hw.edit') and msg.reply_to_message:
+    if msg.reply_to_message and checkright(msg, 'hw.edit'):
         temp_hw[str(msg.from_user.id)] = {'text': msg.reply_to_message.text}
         keyboard = types.InlineKeyboardMarkup()
         buttons = []
@@ -93,7 +93,7 @@ def get_keyboard_hw(date=dt.date.today(), msg=None):
     button3 = types.InlineKeyboardButton(text='➡️', callback_data=f'hw,week,{date + dt.timedelta(days=7)}')
     keyboard.row(button1, button2, button3)
     button1 = types.InlineKeyboardButton(text='🔜 Сегодня и завтра', callback_data=f'hw,today')
-    if msg and checkright(msg, 'hw.edit'):
+    if msg and checkright(msg, 'hw.edit', stat_=False):
         button2 = types.InlineKeyboardButton(text='✏️ Управление...', callback_data=f'hwedit,del')
         keyboard.row(button1, button2)
     else:

@@ -16,9 +16,16 @@ try:
     async def sched_holidays():
         await bot.send_message(ADM_GROUP, get_holidays())
 
+    async def get_stats_():
+        await bot.send_message(ADM_GROUP, get_stats())
+        clear_stats()
+
     if SEND_HD:
         if config['MODULES']['holidays']:
             scheduler.add_job(sched_holidays, 'cron', hour=0, minute=1)
+
+    if SEND_STATS:
+        scheduler.add_job(get_stats_, 'cron', hour=0, minute=0)
 
     log.info('Планировщик запущен')
 except Exception as err:
