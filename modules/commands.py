@@ -97,4 +97,17 @@ async def com_logs(msg):
             log.exception('Ошибка загрузки логов')
 
 
+@dp.message_handler(commands=['silence'])
+async def com_silence(msg):
+    if checkright(msg):
+        global SILENCE
+        if SILENCE:
+            SILENCE = False
+            await msg.answer('🔇 Режим тишины <b>включён</b>.\nВ это время перестанут поступать уведомления '
+                             'об изменениях в расписании и получении новых писем.')
+        else:
+            SILENCE = True
+            await msg.answer('🔉 Режим тишины <b>отключён</b>')
+
+
 log.info('Модуль commands загружен')

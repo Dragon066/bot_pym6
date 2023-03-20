@@ -119,7 +119,7 @@ async def send_ruz_diff():
             date_ = convert_dayhw(date)
             if date not in table.keys():
                 diff += f"⚠ Удалено расписание на <b>{date_}</b>:\n{convert_ruz_date(date, old=True)}\n"
-    if len(diff) != 0:
+    if len(diff) != 0 and SILENCE:
         if len(diff) < 4096:
             await bot.send_message(GROUP, diff)
         else:

@@ -138,7 +138,8 @@ async def get_creds():
                 token.write(creds.to_json())
     except Exception as err:
         log.exception('Ошибка получения токена Gmail')
-        await bot.send_message(ADM_GROUP, f'<b>❗ Ошибка получения токена GMAIL:</b>\n\n{err}')
+        if SILENCE:
+            await bot.send_message(ADM_GROUP, f'<b>❗ Ошибка получения токена GMAIL:</b>\n\n{err}')
     return creds
 
 
@@ -280,38 +281,39 @@ async def gmail_update_msgs():
 
 
 async def send_new_mails(mails):
-    text = f'📬 <b>Обнаружено {len(mails)} '
-    if len(mails) == 1:
-        text += 'новое письмо на почте!</b>'
-    elif len(mails) % 10 in (2, 3, 4) and len(mails) not in (12, 13, 14):
-        text += 'новых письма на почте!</b>'
-    else:
-        text += 'новых писем на почте!</b>'
-    await bot.send_message(GROUP, text)
-    for id in mails:
-        text = get_mail(id)
-        if len(mails) < 5:
-            await bot.send_message(GROUP, text=text)
-        if 'Ирина ИВ Баскова' in MAIL[id]['sender']:
-            await bot.send_message(813128237, text=text)
-        if 'attachment' in MAIL[id].keys():
+    if SILENCE:
+        text = f'📬 <b>Обнаружено {len(mails)} '
+        if len(mails) == 1:
+            text += 'новое письмо на почте!</b>'
+        elif len(mails) % 10 in (2, 3, 4) and len(mails) not in (12, 13, 14):
+            text += 'новых письма на почте!</b>'
+        else:
+            text += 'новых писем на почте!</b>'
+        await bot.send_message(GROUP, text)
+        for id in mails:
+            text = get_mail(id)
             if len(mails) < 5:
-                await bot.send_chat_action(GROUP, types.ChatActions.UPLOAD_DOCUMENT)
-                for att in MAIL[id]['attachment']:
-                    keyboard = None
-                    capt = None
-                    update_files()
-                    from modules.files import FILES
-                    if not FILES[att]['id']:
-                        file = open(att, 'rb')
-                    else:
-                        file = FILES[att]['id']
-                    new_msg = await bot.send_document(GROUP, file, caption=capt)
-                    if 'Ирина ИВ Баскова' in MAIL[id]['sender']:
-                        await bot.send_document(813128237, file, caption=capt)
-                    if not FILES[att]['id']:
-                        FILES[att]['id'] = new_msg.document.file_id
-                        save_files()
+                await bot.send_message(GROUP, text=text)
+            if 'Ирина ИВ Баскова' in MAIL[id]['sender']:
+                await bot.send_message(813128237, text=text)
+            if 'attachment' in MAIL[id].keys():
+                if len(mails) < 5:
+                    await bot.send_chat_action(GROUP, types.ChatActions.UPLOAD_DOCUMENT)
+                    for att in MAIL[id]['attachment']:
+                        keyboard = None
+                        capt = None
+                        update_files()
+                        from modules.files import FILES
+                        if not FILES[att]['id']:
+                            file = open(att, 'rb')
+                        else:
+                            file = FILES[att]['id']
+                        new_msg = await bot.send_document(GROUP, file, caption=capt)
+                        if 'Ирина ИВ Баскова' in MAIL[id]['sender']:
+                            await bot.send_document(813128237, file, caption=capt)
+                        if not FILES[att]['id']:
+                            FILES[att]['id'] = new_msg.document.file_id
+                            save_files()
 
 
 def get_mail(id):
