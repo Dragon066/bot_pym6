@@ -1,6 +1,7 @@
 from botpackage import *
 
 DAYS = ['понедельник', 'вторник', 'среда', 'четверг', 'пятница', 'суббота', 'воскресенье']
+DAYS_SHORT = ['пн', 'вт', 'ср', 'чт', 'пт', 'сб', 'вс']
 MONTH = ['января', 'февраля', 'марта', 'апреля', 'мая', 'июня', 'июля', 'августа', 'сентября', 'октября', 'ноября', 'декабря']
 
 LESSONS = json.load(open('files/lessons.txt', 'r', encoding='utf-8'))
@@ -13,7 +14,7 @@ def update_config_file():
 def convert(date):
     date = str(date).replace('.', '-')
     result = f"{date.split('-')[2]}.{date.split('-')[1]}, " \
-    f"{DAYS[cal.weekday(int(date.split('-')[0]), int(date.split('-')[1]), int(date.split('-')[2]))]}"
+    f"{DAYS_SHORT[cal.weekday(int(date.split('-')[0]), int(date.split('-')[1]), int(date.split('-')[2]))]}"
     return result
 
 
@@ -73,16 +74,3 @@ def arguments(text):
 
 def checkadmin(id):
     return str(id) in config['SECURITY']['main_admins'] or str(id) in str(config['SECURITY']['admins'])
-
-
-def create_keyboard_dates(start, subject, id):
-    keyboard = types.InlineKeyboardMarkup()
-    for i in range(int(start), int(start) + 7):
-        date1 = str(dt.date.today() + dt.timedelta(days = i))
-        date2 = str(dt.date.today() + dt.timedelta(days = i + 7))
-        text1 = convert(date1)
-        text2 = convert(date2)
-        button1 = types.InlineKeyboardButton(text=text1, callback_data=f'hw,1,{id},{subject},{date1}')
-        button2 = types.InlineKeyboardButton(text=text2, callback_data=f'hw,1,{id},{subject},{date2}')
-        keyboard.row(button1, button2)
-    return keyboard
