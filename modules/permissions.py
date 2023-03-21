@@ -55,20 +55,13 @@ def save_users():
 
 
 def checkright(msg, right='-', stat_=True):
-    id, right = msg.from_user.id, arguments(msg.text)['com'] if right == '-' else right
+    if type(msg) not in (str, int):
+        id = msg.from_user.id
+    else:
+        id = msg
+    right = arguments(msg.text)['com'] if right == '-' else right
     from modules.statistics import stat
-    try:
-        for r in user_rights(id).split(', '):
-            try:
-                if re.fullmatch(r, right):
-                    if stat_:
-                        stat(right)
-                    return True
-            except Exception as error:
-                continue
-    except Exception as err:
-        log.exception('Ошибка при проверке права')
-    if right in user_rights(id):
+    if right in user_rights(id) or '.*' in user_rights(id):
         if stat_:
             stat(right)
         return True
@@ -172,6 +165,7 @@ async def com_getme(msg):
 
 
 def user_rights(id):
+    id = int(id)
     hier = config['PERMISSIONS']['hierarchy'].split(', ')
     if id in USERS.keys():
         perms = set(USERS[id]['perms'].split(', ')) if 'perms' in USERS[id].keys() else set()
