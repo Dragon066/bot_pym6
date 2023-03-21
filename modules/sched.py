@@ -17,7 +17,7 @@ try:
         await bot.send_message(ADM_GROUP, get_holidays())
 
     async def get_stats_():
-        await bot.send_message(ADM_GROUP, get_stats())
+        await bot.send_photo(chat_id=ADM_GROUP, photo=get_stat_plot(), caption=get_stats())
         clear_stats()
 
     if SEND_HD:
