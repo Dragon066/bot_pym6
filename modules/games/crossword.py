@@ -204,14 +204,14 @@ def display_cw_img(field, data):
             draw.rectangle((10 + col * 102, 10 + row * 102, 110 + col * 102, 110 + row * 102), fill=color)
             if field[row * cols + col] not in '*#':
                 draw.text((10 + col * 102 + 28, 10 + row * 102 + 11), field[row * cols + col],
-                          font=ImageFont.truetype('consola.ttf', size=80), fill='black')
+                          font=ImageFont.truetype('/usr/share/fonts/consolas/YaHei.Consolas.1.12.ttf', size=80), fill='black')
     for word, value in data.items():
         start = value['start']
         assign = 86 if value['direction'] == 'vertical' else 0
         if value['num'] // 10 > 0 and assign:
             assign -= 12
         draw.text((12 + start[1] * 102 + assign, 12 + start[0] * 102), str(value['num']),
-                  font=ImageFont.truetype('consola.ttf', size=20), fill='black')
+                  font=ImageFont.truetype('/usr/share/fonts/consolas/YaHei.Consolas.1.12.ttf', size=20), fill='black')
     img = BytesIO()
     layer.save(img, 'PNG')
     img.seek(0)
