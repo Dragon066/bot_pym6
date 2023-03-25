@@ -40,13 +40,15 @@ storage = MemoryStorage()
 dp = Dispatcher(bot, storage=storage)
 scheduler = AsyncIOScheduler({'apscheduler.timezone': 'Europe/Moscow'})
 
-ADM_GROUP = config['SECURITY']['admin_group']
-GROUP = config['SECURITY']['group']
+ADM_GROUP = config['SECURITY']['admin_group'] if not config['SECURITY']['test_bot'] else 1056768423
+GROUP = config['SECURITY']['group'] if not config['SECURITY']['test_bot'] else 1056768423
 GROUP_NAME = config['SECURITY']['group_name']
 BOT_ID = int(config['SECURITY']['bot_id'])
 
-SEND_HD = int(config['SETTINGS']['send_hd'])
-SEND_STATS = int(config['SETTINGS']['send_stats'])
+SEND_HD = config['SETTINGS']['send_hd']
+SEND_STATS = config['SETTINGS']['send_stats']
+SEND_TOPS = config['SETTINGS']['send_tops']
+SEND_FACTS = config['SETTINGS']['send_facts']
 SILENCE = True
 
 USERS_path = config['PATH']['users']
@@ -99,11 +101,11 @@ if config['MODULES']['code']:
 if config['MODULES']['open']:
     from modules.open import *
 
+if config['MODULES']['sperm']:
+    from modules.games.sperm import *
+
 if config['MODULES']['sched']:
     from modules.sched import *
 
 if config['MODULES']['crossword']:
     from modules.games.crossword import *
-
-if config['MODULES']['sperm']:
-    from modules.games.sperm import *

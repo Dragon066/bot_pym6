@@ -110,4 +110,19 @@ async def com_silence(msg):
             await msg.answer('🔉 Режим тишины <b>отключён</b>')
 
 
+@dp.message_handler(commands=['fact'])
+async def com_fact(msg):
+    await msg.reply(get_random_fact(1)[0])
+
+
+def get_random_fact(n):
+    result = []
+    for i in range(n):
+        resp = requests.get('https://lucky-random.ru/modules/frand/api.php')
+        text = resp.text
+        text = text[text.find('|') + 1 : text.find('|', text.find('|') + 2)]
+        result.append(text)
+    return result
+
+
 log.info('Модуль commands загружен')

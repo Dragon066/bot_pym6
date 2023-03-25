@@ -212,6 +212,11 @@ async def com_masturbate(msg):
 
 @dp.message_handler(commands=['tops'])
 async def com_tops(msg):
+    await msg.reply(sperm_get_top())
+
+
+def sperm_get_top():
+    global SPERM
     top = []
     for id, val in SPERM.items():
         top.append((val['dickname'] if val['dickname'] else f"{val['name']}'s dick", val['len']))
@@ -219,7 +224,7 @@ async def com_tops(msg):
     text = f"🥳 <b>Мега топ пиписек</b>:\n"
     for i, person in enumerate(top):
         text += f"\n{i + 1}) <b>{person[0]}</b> — {person[1]} см"
-    await msg.reply(text)
+    return text
 
 
 @dp.message_handler(commands=['rename'])
