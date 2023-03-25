@@ -203,7 +203,7 @@ async def callback_hwedit(call):
                     subject = [sub for sub, value in LESSONS.items() if value['name'] == temp_hw[id]['subject']][0]
                     HW[subject][str(date)] = temp_hw[id]['text']
                     save_hw()
-                    text = get_add_text(temp_hw[id]['text'], temp_hw[id]['subject'], convert_dayhw(date)) + '\n\n💫 Добавлено!'
+                    text = get_add_text(temp_hw[id]['text'], temp_hw[id]['subject'], convert_dayhw(date)) + '\n\n💫 Чудесно, добавлено!'
                     del temp_hw[id]
                     await bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.message_id,
                                                 text=text)
