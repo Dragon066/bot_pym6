@@ -8,6 +8,7 @@ from aiogram.utils import executor
 import sys
 import yaml
 import re
+import math
 import datetime as dt
 import calendar as cal
 import random as rnd
@@ -103,3 +104,6 @@ if config['MODULES']['sched']:
 
 if config['MODULES']['crossword']:
     from modules.games.crossword import *
+
+if config['MODULES']['sperm']:
+    from modules.games.sperm import *
