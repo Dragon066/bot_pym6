@@ -100,3 +100,6 @@ if config['MODULES']['open']:
 
 if config['MODULES']['sched']:
     from modules.sched import *
+
+if config['MODULES']['crossword']:
+    from modules.games.crossword import *
