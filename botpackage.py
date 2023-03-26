@@ -109,3 +109,6 @@ if config['MODULES']['sched']:
 
 if config['MODULES']['crossword']:
     from modules.games.crossword import *
+
+if config['MODULES']['chatgpt']:
+    from modules.chatgpt import *
