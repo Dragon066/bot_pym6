@@ -7,19 +7,20 @@ MESSAGES = []
 
 @dp.message_handler(Text(startswith='!'))
 async def chatgpt_call(msg):
-    global MESSAGES
-    if msg.text == '!clear':
-        MESSAGES = []
-        await msg.reply('История отчищена')
-    else:
-        message = msg.text[1:]
-        if len(message) <= 1024:
-            new_msg = await msg.reply('Минутку...')
-            responce = chatgpt_get(message)
-            await bot.edit_message_text(chat_id=new_msg.chat.id, message_id=new_msg.message_id, text=responce)
-            MESSAGES.append({'role': 'assistant', 'content': responce})
+    if checkright(msg, 'chatgpt'):
+        global MESSAGES
+        if msg.text == '!clear':
+            MESSAGES = []
+            await msg.reply('История отчищена')
         else:
-            await msg.reply('К сожалению, вы превысили лимит запроса (1024 слов)')
+            message = msg.text[1:]
+            if len(message) <= 1024:
+                new_msg = await msg.reply('Минутку...')
+                responce = chatgpt_get(message)
+                await bot.edit_message_text(chat_id=new_msg.chat.id, message_id=new_msg.message_id, text=responce)
+                MESSAGES.append({'role': 'assistant', 'content': responce})
+            else:
+                await msg.reply('К сожалению, вы превысили лимит запроса (1024 слов)')
 
 
 def chatgpt_get(message):
