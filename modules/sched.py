@@ -29,16 +29,16 @@ try:
 
     if SEND_HD:
         if config['MODULES']['holidays']:
-            scheduler.add_job(sched_holidays, 'cron', hours=0, minutes=0, seconds=30)
+            scheduler.add_job(sched_holidays, 'cron', hour=0, minute=0)
 
     if SEND_STATS:
-        scheduler.add_job(get_stats_, 'cron', hours=0, minutes=0, seconds=0)
+        scheduler.add_job(get_stats_, 'cron', hour=0, minute=0)
 
     if SEND_TOPS:
-        scheduler.add_job(get_sperm_top, 'cron', hours=0, minutes=0, seconds=10)
+        scheduler.add_job(get_sperm_top, 'cron', hour=0, minute=0)
 
     if SEND_FACTS:
-        scheduler.add_job(get_facts_, 'cron', hours=0, minutes=0, seconds=20)
+        scheduler.add_job(get_facts_, 'cron', hour=0, minute=0)
 
     log.info('Планировщик запущен')
 except Exception as err:
