@@ -155,7 +155,7 @@ async def com_cum(msg):
             minutes=sperm_get_time(id)) < dt.datetime.now():
         if SPERM[id]['len'] * 0.8 > 1:
             SPERM[id]['time'] = dt.datetime.timestamp(dt.datetime.now())
-            toadd = SPERM[id]['len'] * 0.2 * 0.5
+            toadd = round(SPERM[id]['len'] * 0.2 * 0.5, 2)
             SPERM[id]['len'] = round(SPERM[id]['len'] * 0.8, 2)
             SPERM[id]['cum_count'] += 1
             SPERM[id]['bak'] += toadd
