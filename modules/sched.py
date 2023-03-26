@@ -9,7 +9,7 @@ if config['MODULES']['gmail']:
 
 try:
     if config['MODULES']['ruz']:
-        scheduler.add_job(update_ruz, 'interval', minutes=1)
+        scheduler.add_job(update_ruz, 'interval', minutes=5)
     if config['MODULES']['gmail']:
         scheduler.add_job(gmail_update_msgs, 'interval', minutes=1)
 
