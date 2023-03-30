@@ -27,6 +27,17 @@ try:
     async def get_sperm_top():
         await bot.send_message(ADM_GROUP, sperm_get_top())
 
+    async def sched_funcs_00():
+        if SEND_HD:
+            if config['MODULES']['holidays']:
+                sched_holidays()
+        if SEND_FACTS:
+            get_facts_()
+        if SEND_STATS:
+            get_stats_()
+        if SEND_TOPS:
+            get_sperm_top()
+
     if SEND_HD:
         if config['MODULES']['holidays']:
             scheduler.add_job(sched_holidays, 'cron', hour=0, minute=0)
