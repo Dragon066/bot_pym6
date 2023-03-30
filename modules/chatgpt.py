@@ -101,6 +101,8 @@ async def chatgpt_get(id, message, single=False):
         tokens = len(enc_text.encode(text))
         while tokens + MESSAGES[id]['max_tokens'] > 4000:
             del MESSAGES[id]['content'][0]
+            text = ' '.join(v['content'] for v in MESSAGES[id]['content'])
+            tokens = len(enc_text.encode(text))
         response = await openai_async.chat_complete(
             CHAT_TOKEN,
             timeout=60,
