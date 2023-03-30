@@ -11,6 +11,7 @@ async def on_shutdown(dp):
     save_ruz()
     save_mail()
     save_files()
+    save_sperm()
     log.info('Отключение')
     print('Бот отключён')
 
