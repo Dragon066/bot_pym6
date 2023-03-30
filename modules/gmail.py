@@ -324,7 +324,7 @@ def get_mail(id):
         date = convert_day_header(date.date()) + f' {date.date().year}, {date.time()}'
     except:
         date = html.fromstring(MAIL[id]["date"]).text_content()
-    msg = html.fromstring(MAIL[id]["message"]).text_content()
+    msg = markdown.quote_html(html.fromstring(MAIL[id]["message"]).text_content())
     text = f'<b>Тема:</b> <code>{subject}</code>\n<b>Отправитель:</b> <code>{sender}</code>\n' \
            f'<b>Дата:</b> <code>{date}</code>\n\n<b>Сообщение:</b>\n{msg}'
     if 'attachment' in MAIL[id].keys():
