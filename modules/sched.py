@@ -38,18 +38,7 @@ try:
         if SEND_TOPS:
             get_sperm_top()
 
-    if SEND_HD:
-        if config['MODULES']['holidays']:
-            scheduler.add_job(sched_holidays, 'cron', hour=0, minute=0)
-
-    if SEND_STATS:
-        scheduler.add_job(get_stats_, 'cron', hour=0, minute=0)
-
-    if SEND_TOPS:
-        scheduler.add_job(get_sperm_top, 'cron', hour=0, minute=0)
-
-    if SEND_FACTS:
-        scheduler.add_job(get_facts_, 'cron', hour=0, minute=0)
+    scheduler.add_job(sched_funcs_00, 'cron', hour=0, minute=0)
 
     log.info('Планировщик запущен')
 except Exception as err:
