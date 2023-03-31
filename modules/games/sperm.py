@@ -279,10 +279,10 @@ async def com_cum(msg):
         else:
             await msg.reply('🤏🤏🤏 У вас слишком маленький писюн, чтобы кончить :( хаха')
     else:
-        time = str(dt.datetime.fromtimestamp(int(SPERM[id]['time'])) + dt.timedelta(
+        time = str(dt.datetime.fromtimestamp(int(SPERM[id]['cum_time'])) + dt.timedelta(
             minutes=sperm_get_time(id)) - dt.datetime.now())
         time = time[:time.find('.')]
-        await msg.reply(f"До следующего камшота: <b>{time}</b>")
+        await msg.reply(f"🏖 До следующего камшота: <b>{time}</b>")
 
 
 @dp.message_handler(commands=['masturbate'])
