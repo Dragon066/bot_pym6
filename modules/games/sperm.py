@@ -27,7 +27,7 @@ async def com_gets(msg):
     if msg.reply_to_message:
         id = msg.reply_to_message.from_user.id
         if id not in SPERM:
-            sperm_create_default(msg)
+            sperm_create_default(msg.reply_to_message)
         text = sperm_get_info_another(id)
     else:
         id = msg.from_user.id
