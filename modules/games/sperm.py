@@ -158,6 +158,11 @@ def sperm_get_info(id):
         text += f"⏳ <i>До следующей dro4ки: {time}</i>"
     if SPERM[id]['len'] * 0.8 > 1 and (dt.datetime.fromtimestamp(int(SPERM[id]['cum_time'])) + dt.timedelta(minutes = sperm_get_time(id)) < dt.datetime.now()):
         text += f"\n\n<b>Вы можете кончить /cum</b>\n(потеря 20% длины, пополнение 10% spermобака)"
+    elif SPERM[id]['len'] * 0.8 > 1:
+        time = str(dt.datetime.fromtimestamp(int(SPERM[id]['cum_time'])) + dt.timedelta(
+            minutes=sperm_get_time(id)) - dt.datetime.now())
+        time = time[:time.find('.')]
+        text += f"\n\n🏖 До следующего камшота: <b>{time}</b>"
     else:
         text += f"\n\n🤏 Подростите письку и сможете кончить!"
     if not SPERM[id]['dickname']:
