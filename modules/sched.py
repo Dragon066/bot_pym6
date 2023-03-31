@@ -30,13 +30,13 @@ try:
     async def sched_funcs_00():
         if SEND_HD:
             if config['MODULES']['holidays']:
-                sched_holidays()
+                await sched_holidays()
         if SEND_FACTS:
-            get_facts_()
+            await get_facts_()
         if SEND_STATS:
-            get_stats_()
+            await get_stats_()
         if SEND_TOPS:
-            get_sperm_top()
+            await get_sperm_top()
 
     scheduler.add_job(sched_funcs_00, 'cron', hour=0, minute=0)
 
