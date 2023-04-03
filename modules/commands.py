@@ -50,6 +50,10 @@ async def com_update(msg):
                 from modules.files import update_files
                 update_files()
                 await msg.answer("♻️ Файловая система обновлена")
+            elif args['arg1'] in ('s', 'sperm', 'cum') and config['MODULES']['sperm']:
+                from modules.games.sperm import load_sperm
+                load_sperm()
+                await msg.answer("♻️ Спермодрочеры обновлены")
             else:
                 await update_all(msg)
         else:
@@ -70,6 +74,9 @@ async def update_all(msg):
     if config['MODULES']['files']:
         from modules.files import update_files
         update_files()
+    if config['MODULES']['sperm']:
+        from modules.games.sperm import load_sperm
+        load_sperm()
     await msg.answer("♻️ Файлы обновлены")
 
 

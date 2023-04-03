@@ -1,4 +1,5 @@
 from botpackage import *
+import aiogram.utils.exceptions
 
 SPERM = {}
 
@@ -100,6 +101,14 @@ async def callback_sperm(call):
                                   text=sperm_get_shop(id), reply_markup=sperm_get_keyboard(id))
             else:
                 await call.answer('Не хватает опыта! 😒')
+    elif call.data.split(',')[1] == 'update':
+        id = int(call.data.split(',')[2])
+        await call.answer('Информация обновлена 🐸')
+        try:
+            await bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.message_id,
+                                            text=sperm_get_shop(id), reply_markup=sperm_get_keyboard(id))
+        except aiogram.utils.exceptions.MessageNotModified:
+            pass
 
 
 def sperm_get_keyboard(id):
@@ -116,6 +125,8 @@ def sperm_get_keyboard(id):
     if SPERM[id]['skill_level'] < 40:
         button = types.InlineKeyboardButton(text=f'LvLUP мастерство ({sperm_get_price_skill(id)}exp 🌀)', callback_data=f'sperm,lvlup_skill,{id}')
         keyboard.add(button)
+    button = types.InlineKeyboardButton(text=f'Обновить 🔄', callback_data=f'sperm,update,{id}')
+    keyboard.add(button)
     return keyboard
 
 
@@ -126,14 +137,15 @@ def sperm_get_shop(id):
             f"🌀 Опыт: <b>{SPERM[id]['exp']} exp</b>\n" \
             f"🥛 Спермобак: <b>{SPERM[id]['bak']} мл</b>\n\n" \
             f"💪 Уровень дрочки: <b>{SPERM[id]['power_level']}</b>\n" \
-            f"💪 {':' * (SPERM[id]['power_level'] - 1)}|{'.' * (39 - SPERM[id]['power_level'])}\n" \
+            f"💪 {':' * (SPERM[id]['power_level'] - 1)}|{'.' * (40 - SPERM[id]['power_level'])}\n" \
             f"🕔 Уровень зависимости: <b>{SPERM[id]['time_level']}</b> <i>({sperm_get_time(id)} мин)</i>\n" \
-            f"🕔 {':' * (SPERM[id]['time_level'] - 1)}|{'.' * (39 - SPERM[id]['time_level'])}\n" \
+            f"🕔 {':' * (SPERM[id]['time_level'] - 1)}|{'.' * (40 - SPERM[id]['time_level'])}\n" \
             f"🥚 Уровень яиц: <b>{SPERM[id]['rate_level']}</b>\n" \
-            f"🥚 {':' * (SPERM[id]['rate_level'] - 1)}|{'.' * (9 - SPERM[id]['rate_level'])}\n" \
+            f"🥚 {':' * (SPERM[id]['rate_level'] - 1)}|{'.' * (10 - SPERM[id]['rate_level'])}\n" \
             f"🚼 Уровень мастерства: <b>{SPERM[id]['skill_level']}</b>\n" \
-            f"🚼 {':' * (SPERM[id]['skill_level'] - 1)}|{'.' * (39 - SPERM[id]['skill_level'])}\n"
+            f"🚼 {':' * (SPERM[id]['skill_level'] - 1)}|{'.' * (40 - SPERM[id]['skill_level'])}\n"
     return text
+
 
 def sperm_get_info(id):
     text = f"🍆 <b>{SPERM[id]['name']}'s dick</b>\n\n" if not SPERM[id]['dickname'] else f"<b>{SPERM[id]['dickname']}</b>\n\n"
@@ -141,13 +153,13 @@ def sperm_get_info(id):
            f"🌀 Опыт: <b>{SPERM[id]['exp']} exp</b>\n" \
            f"🥛 Спермобак: <b>{SPERM[id]['bak']} мл</b>\n\n" \
            f"💪 Уровень дрочки: <b>{SPERM[id]['power_level']}</b>\n" \
-           f"💪 {':'*(SPERM[id]['power_level'] - 1)}|{'.'*(39 - SPERM[id]['power_level'])}\n" \
+           f"💪 {':'*(SPERM[id]['power_level'] - 1)}|{'.'*(40 - SPERM[id]['power_level'])}\n" \
            f"🕔 Уровень зависимости: <b>{SPERM[id]['time_level']}</b> <i>({sperm_get_time(id)} мин)</i>\n" \
-           f"🕔 {':'*(SPERM[id]['time_level'] - 1)}|{'.'*(39 - SPERM[id]['time_level'])}\n" \
+           f"🕔 {':'*(SPERM[id]['time_level'] - 1)}|{'.'*(40 - SPERM[id]['time_level'])}\n" \
            f"🥚 Уровень яиц: <b>{SPERM[id]['rate_level']}</b>\n" \
-           f"🥚 {':'*(SPERM[id]['rate_level'] - 1)}|{'.'*(9 - SPERM[id]['rate_level'])}\n" \
+           f"🥚 {':'*(SPERM[id]['rate_level'] - 1)}|{'.'*(10 - SPERM[id]['rate_level'])}\n" \
            f"🚼 Уровень мастерства: <b>{SPERM[id]['skill_level']}</b>\n" \
-           f"🚼 {':'*(SPERM[id]['skill_level'] - 1)}|{'.'*(39 - SPERM[id]['skill_level'])}\n" \
+           f"🚼 {':'*(SPERM[id]['skill_level'] - 1)}|{'.'*(40 - SPERM[id]['skill_level'])}\n" \
            f"🍌 Количество мастурбаций: <b>{SPERM[id]['masturbate_count']}</b>\n" \
            f"💨 Количество CUMчей: <b>{SPERM[id]['cum_count']}</b> 💦\n\n"
     if dt.datetime.fromtimestamp(int(SPERM[id]['time'])) + dt.timedelta(minutes = sperm_get_time(id)) < dt.datetime.now():
@@ -173,16 +185,17 @@ def sperm_get_info(id):
 def sperm_get_info_another(id):
     text = f"🍆 <b>{SPERM[id]['name']}'s dick</b>\n\n" if not SPERM[id][
         'dickname'] else f"<b>{SPERM[id]['dickname']}</b>\n\n"
-    text += f"🌀 Опыт: <b>{SPERM[id]['exp']} exp</b>\n" \
+    text += f"📏 Длина пиписьки: <b>{SPERM[id]['len']} см</b>\n" \
+           f"🌀 Опыт: <b>{SPERM[id]['exp']} exp</b>\n" \
            f"🥛 Спермобак: <b>{SPERM[id]['bak']} мл</b>\n\n" \
            f"💪 Уровень дрочки: <b>{SPERM[id]['power_level']}</b>\n" \
-           f"💪 {':'*(SPERM[id]['power_level'] - 1)}|{'.'*(39 - SPERM[id]['power_level'])}\n" \
+           f"💪 {':'*(SPERM[id]['power_level'] - 1)}|{'.'*(40 - SPERM[id]['power_level'])}\n" \
            f"🕔 Уровень зависимости: <b>{SPERM[id]['time_level']}</b> <i>({sperm_get_time(id)} мин)</i>\n" \
-           f"🕔 {':'*(SPERM[id]['time_level'] - 1)}|{'.'*(39 - SPERM[id]['time_level'])}\n" \
+           f"🕔 {':'*(SPERM[id]['time_level'] - 1)}|{'.'*(40 - SPERM[id]['time_level'])}\n" \
            f"🥚 Уровень яиц: <b>{SPERM[id]['rate_level']}\n</b>" \
-           f"🥚 {':'*(SPERM[id]['rate_level'] - 1)}|{'.'*(9 - SPERM[id]['rate_level'])}\n" \
+           f"🥚 {':'*(SPERM[id]['rate_level'] - 1)}|{'.'*(10 - SPERM[id]['rate_level'])}\n" \
            f"🚼 Уровень мастерства: <b>{SPERM[id]['skill_level']}</b>\n" \
-           f"🚼 {':'*(SPERM[id]['skill_level'] - 1)}|{'.'*(39 - SPERM[id]['skill_level'])}\n" \
+           f"🚼 {':'*(SPERM[id]['skill_level'] - 1)}|{'.'*(40 - SPERM[id]['skill_level'])}\n" \
            f"🍌 Количество мастурбаций: <b>{SPERM[id]['masturbate_count']}</b>\n" \
            f"💨 Количество CUMчей: <b>{SPERM[id]['cum_count']}</b> 💦\n\n"
     return text
@@ -270,35 +283,41 @@ async def com_cum(msg):
                 SPERM[id]['bak'] += toadd
                 SPERM[id]['bak'] = round(SPERM[id]['bak'], 2)
                 await msg.reply(
-                    f'😲😲😲 <b>ВЫ КОНЧИЛИ!!!!</b> 💦💦💦\n\n<b>+{toadd} мл</b> в spermобак 🥛\n\nОставшаяся длина писюнчика: <b>{SPERM[id]["len"]} см</b> (-{tominus}см)')
+                    f'😲😲😲 <b>ВЫ КОНЧИЛИ!!!!</b> 💦💦💦\n\n<b>+{toadd} мл</b> в spermобак 🥛\n'
+                    f'Всего: <b>{SPERM[id]["bak"]} мл</b>\n\n'
+                    f'Оставшаяся длина писюнчика: <b>{SPERM[id]["len"]} см</b> (-{tominus}см)',
+                disable_notification=True)
             else:
                 toadd = round(2 * sperm_get_rate(id) * SPERM[id]['len'] * 0.2 * 0.5, 2)
                 SPERM[id]['len'] = round(SPERM[id]['len'] * 0.8, 2)
                 SPERM[id]['bak'] += toadd
                 SPERM[id]['bak'] = round(SPERM[id]['bak'], 2)
                 await msg.reply(
-                    f'😲😲😲 <b>МЕГА КАМШОТ Х2!!!!</b> 💦💦💦\n<i>Ваше мастерство поражает!</i>\n<b>+{toadd} мл</b> в spermобак 🥛\n\nОставшаяся длина писюнчика: <b>{SPERM[id]["len"]} см</b> (-{tominus}см)')
+                    f'😲😲😲 <b>МЕГА КАМШОТ Х2!!!!</b> 💦💦💦\n<i>Ваше мастерство поражает!</i>\n<b>+{toadd} мл</b> в spermобак 🥛\nВсего: <b>{SPERM[id]["bak"]} мл</b>\n\nОставшаяся длина писюнчика: <b>{SPERM[id]["len"]} см</b> (-{tominus}см)',
+                disable_notification=True)
             SPERM[id]['cum_count'] += 1
             save_sperm()
-
         else:
             await msg.reply('🤏🤏🤏 У вас слишком маленький писюн, чтобы кончить :( хаха')
     else:
         time = str(dt.datetime.fromtimestamp(int(SPERM[id]['cum_time'])) + dt.timedelta(
             minutes=sperm_get_time(id)) - dt.datetime.now())
         time = time[:time.find('.')]
-        await msg.reply(f"🏖 До следующего камшота: <b>{time}</b>")
+        await msg.reply(f"🏖 До следующего камшота: <b>{time}</b>", disable_notification=True)
 
 
 @dp.message_handler(commands=['masturbate'])
 async def com_masturbate(msg):
     if msg.reply_to_message:
         id = msg.reply_to_message.from_user.id
+        if id == BOT_ID:
+            await msg.reply('Хеееей, не надо мне дрочить(((( мне ноль лет, одумойтесь 😢😢')
+            return
         if id not in SPERM:
             sperm_create_default(msg.reply_to_message)
         if dt.datetime.fromtimestamp(int(SPERM[id]['time'])) + dt.timedelta(minutes=sperm_get_time(id)) < dt.datetime.now():
             SPERM[id]['time'] = dt.datetime.timestamp(dt.datetime.now())
-            toadd = round(sperm_get_rate(id) * sperm_get_len(id), 2)
+            toadd = sperm_get_len(id)
             SPERM[id]['len'] += toadd
             SPERM[id]['len'] = round(SPERM[id]['len'], 2)
             add_exp = sperm_get_exp(id)
@@ -307,48 +326,52 @@ async def com_masturbate(msg):
             SPERM[msg.from_user.id]['exp'] += round(add_exp * 0.2)
             await msg.reply(f"<b>{msg.from_user.first_name}</b> подрочил <b>{msg.reply_to_message.from_user.first_name}</b>! ❤️❤️❤️\n\n"
                             f"📏 Писька <b>{msg.reply_to_message.from_user.first_name}</b> увеличилась на <b>{toadd} см</b>\n"
-                            f"Теперь длина этого dick'a: <b>{SPERM[id]['len']}</b> 👀\n\n"
+                            f"Теперь длина этого dick'a: <b>{SPERM[id]['len']} см</b> 👀\n\n"
                             f"Also, <b>+{add_exp} exp 🌀</b> для <b>{msg.reply_to_message.from_user.first_name}</b> и"
-                            f" <b>+{round(add_exp * 0.2)}</b> для <b>{msg.from_user.first_name}</b>")
+                            f" <b>+{round(add_exp * 0.2)} exp 🌀</b> для <b>{msg.from_user.first_name}</b>",
+                            disable_notification=True)
             if sperm_get_random(id):
                 SPERM[id]['bak'] += toadd * 0.5
                 SPERM[id]['bak'] = round(SPERM[id]['bak'], 2)
                 await msg.reply(f"ВЫ ЗАСТАВИЛИ <b>{msg.reply_to_message.from_user.first_name}</b> ПОТЕЧЬ УФФФФ 💦💦💦💦\n\n"
                                 f"Вы, как истинный ценитель dro4ки, помогли собрать кончу в баночку:\n"
-                                f"<b>+{round(toadd * 0.5, 2)} мл</b> в spermoбак 🥛")
+                                f"<b>+{round(toadd * 0.5, 2)} мл</b> в spermoбак 🥛"
+                                f"Всего: <b>{SPERM[id]['bak']} мл</b>", disable_notification=True)
             save_sperm()
         else:
             time = str(dt.datetime.fromtimestamp(int(SPERM[id]['time'])) + dt.timedelta(
                 minutes=sperm_get_time(id)) - dt.datetime.now())
             time = time[:time.find('.')]
-            await msg.reply(f"⏳ До следующей дрочки для <b>{msg.reply_to_message.from_user.first_name}</b>: <b>{time}</b>")
+            await msg.reply(f"⏳ До следующей дрочки для <b>{msg.reply_to_message.from_user.first_name}</b>: <b>{time}</b>",
+                            disable_notification=True)
     else:
         id = msg.from_user.id
         if id not in SPERM:
             sperm_create_default(msg)
         if dt.datetime.fromtimestamp(int(SPERM[id]['time'])) + dt.timedelta(minutes=sperm_get_time(id)) < dt.datetime.now():
             SPERM[id]['time'] = dt.datetime.timestamp(dt.datetime.now())
-            toadd = round(sperm_get_rate(id) * sperm_get_len(id), 2)
+            toadd = sperm_get_len(id)
             SPERM[id]['len'] += toadd
             SPERM[id]['len'] = round(SPERM[id]['len'], 2)
             add_exp = sperm_get_exp(id)
             SPERM[id]['exp'] += add_exp
             SPERM[id]['masturbate_count'] += 1
             await msg.reply(f"Ох хорошо! 😪\n\n📏 Ваша писька увеличилась на <b>{toadd} см</b>\n"
-                            f"❤️ Теперь длина вашего 4leна: <b>{SPERM[id]['len']}\n\n</b>"
-                            f"Also, +{add_exp} exp 🌀")
+                            f"❤️ Теперь длина вашего 4leна: <b>{SPERM[id]['len']} см\n\n</b>"
+                            f"Also, <b>+{add_exp} exp</b> 🌀", disable_notification=True)
             if sperm_get_random(id):
                 SPERM[id]['bak'] += toadd * 0.5
                 SPERM[id]['bak'] = round(SPERM[id]['bak'], 2)
                 await msg.reply(f"Вы потекли 💦💦😢\n\n"
                                 f"Но это даже хорошо! Вы немного, конечно же, случайно, кончили:\n"
-                                f"<b>+{round(toadd * 0.5, 2)} мл</b> в spermoбак 🥛")
+                                f"<b>+{round(toadd * 0.5, 2)} мл</b> в spermoбак 🥛"
+                                f"Всего: <b>{SPERM[id]['bak']} мл</b>", disable_notification=True)
             save_sperm()
         else:
             time = str(dt.datetime.fromtimestamp(int(SPERM[id]['time'])) + dt.timedelta(
                 minutes=sperm_get_time(id)) - dt.datetime.now())
             time = time[:time.find('.')]
-            await msg.reply(f"⏳ До следующей дрочки: <b>{time}</b>")
+            await msg.reply(f"⏳ До следующей дрочки: <b>{time}</b>", disable_notification=True)
 
 
 @dp.message_handler(commands=['tops'])
