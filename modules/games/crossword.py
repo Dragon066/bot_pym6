@@ -169,7 +169,7 @@ async def get_stat(id):
 
 
 def get_cw_top():
-    result = {v['name']: v['total'] for id, v in STATS.items() if id != str(bot_id)}
+    result = {v['name']: v['total'] for id, v in STATS.items() if id != str(BOT_ID)}
     result = dict(sorted(list(result.items()), key=lambda x: x[1], reverse=True))
     text = f'{cwheader} <b>Top</b>\n\n'
     symbs = {1: '🥇', 2: '🥈', 3: '🥉'}
@@ -478,13 +478,13 @@ async def callback_cw(call):
             if i not in to_show:
                 new_word = new_word[:i] + '_' + new_word[i + 1:]
         text = f"{cwheader} <b>Tip</b>\nПодсказка для вопроса №{cw_sessions[id]['meta_data'][word]['num']}:\n\n<code>{new_word}</code>"
-        cw_sessions[id]['meta_data'][word]['answered_by'] = bot_id
+        cw_sessions[id]['meta_data'][word]['answered_by'] = BOT_ID
         save_cw_sessions()
         await bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.message_id,
                                     text=text)
     if action == 'tip3':
         id, word = call.data.split(',')[2], call.data.split(',')[3]
-        cw_sessions[id]['meta_data'][word]['answered_by'] = bot_id
+        cw_sessions[id]['meta_data'][word]['answered_by'] = BOT_ID
         save_cw_sessions()
         text = f"{cwheader} <b>Tip</b>\nПодсказка для вопроса №{cw_sessions[id]['meta_data'][word]['num']}:\n\n<code>{word}</code>"
         await bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.message_id,
@@ -499,7 +499,7 @@ async def callback_cw(call):
         for ans in cw_sessions[id]['meta_data']:
             if not cw_sessions[id]['meta_data'][ans]['answered']:
                 cw_ans(id, ans)
-                cw_sessions[id]['meta_data'][ans]['answered_by'] = bot_id
+                cw_sessions[id]['meta_data'][ans]['answered_by'] = BOT_ID
         await bot.delete_message(chat_id=call.message.chat.id, message_id=cw_sessions[id]['msg_quest'])
         await bot.delete_message(chat_id=call.message.chat.id, message_id=int(id))
         await bot.send_photo(photo=display_cw_img(cw_sessions[id]['field'], cw_sessions[id]['meta_data']),
