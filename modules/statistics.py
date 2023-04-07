@@ -40,7 +40,8 @@ def get_stat_plot():
 def get_stats():
     text = f'📊 <b>Статистика</b>\n<i>за прошедший день</i>\n\n'
     if len(STATS) > 0:
-        for command, value in STATS.items():
+        items = sorted(STATS.items(), key=lambda x: x[1], reverse=True)
+        for command, value in items:
             text += f"<b>/{command}</b> - {value}\n"
     else:
         text += 'Статистика отсутствует'
