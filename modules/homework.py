@@ -61,14 +61,18 @@ def get_keyboard_dates(start, id):
         from modules.ruz import table
         if date1.replace('-', '.') in table:
             for time, value in table[date1.replace('-', '.')].items():
+                vals = []
                 if value['discipline'] == subject:
-                    text1 = f'({value["work"][0]})' + '👉 ' + text1
-                    break
+                    vals.append(value['work'][0])
+            if len(vals) > 0:
+                text1 = f'({",".join(vals)}) ' + '👉 ' + text1
         if date2.replace('-', '.') in table:
             for time, value in table[date2.replace('-', '.')].items():
+                vals = []
                 if value['discipline'] == subject:
-                    text2 = f'({value["work"][0]})' + '👉 ' + text2
-                    break
+                    vals.append(value['work'][0])
+            if len(vals) > 0:
+                text2 = f'({",".join(vals)}) ' + '👉 ' + text2
         button1 = types.InlineKeyboardButton(text=text1, callback_data=f'hwedit,add,date,{id},{date1}')
         button2 = types.InlineKeyboardButton(text=text2, callback_data=f'hwedit,add,date,{id},{date2}')
         keyboard.row(button1, button2)
@@ -82,11 +86,8 @@ def get_keyboard_hw(date=dt.date.today(), msg=None):
     button3 = types.InlineKeyboardButton(text='➡️', callback_data=f'hw,week,{date + dt.timedelta(days=7)}')
     keyboard.row(button1, button2, button3)
     button1 = types.InlineKeyboardButton(text='🔜 Сегодня и завтра', callback_data=f'hw,today')
-    if msg and checkright(msg, 'hw.edit', stat_=False):
-        button2 = types.InlineKeyboardButton(text='✏️ Управление...', callback_data=f'hwedit,del')
-        keyboard.row(button1, button2)
-    else:
-        keyboard.add(button1)
+    button2 = types.InlineKeyboardButton(text='📖 На 14 дней', callback_data=f'hw,14days')
+    keyboard.row(button1, button2)
     return keyboard
 
 
@@ -169,6 +170,13 @@ async def callback_hw(call):
                                         text=get_hw(date_start, date_stop), reply_markup=get_keyboard_hw(date_start, call.message))
             except aiogram.utils.exceptions.MessageNotModified:
                 await call.answer()
+        elif call.data.split(',')[1] == '14days':
+            date_start, date_stop = dt.date.today(), dt.date.today() + dt.timedelta(days=14)
+            try:
+                await bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.message_id,
+                                        text=get_hw(date_start, date_stop), reply_markup=get_keyboard_hw(date_start, call.message))
+            except aiogram.utils.exceptions.MessageNotModified:
+                await call.answer()
 
 
 @dp.callback_query_handler(Text(startswith='hwedit,'))
@@ -208,22 +216,7 @@ async def callback_hwedit(call):
                     await bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.message_id,
                                                 text=text)
         if data[1] == 'del':
-            if len(data) < 3:
-                keyboard = types.InlineKeyboardMarkup()
-                buttons = []
-                for subject in HW.keys():
-                    if len(HW[subject]) > 0:
-                        buttons.append(types.InlineKeyboardButton(text=LESSONS[subject]['name'],
-                                                            callback_data=f"hwedit,del,{LESSONS[subject]['name']}"))
-                for i in range(len(buttons) // 2):
-                    keyboard.row(buttons[2 * i], buttons[2 * i + 1])
-                if len(buttons) % 2 == 1:
-                    keyboard.add(buttons[-1])
-                button = types.InlineKeyboardButton(text="⬅️ Назад", callback_data=f'hw,thisweek,{dt.date.today()}')
-                keyboard.add(button)
-                await bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.message_id,
-                                            text="✏️ <b>Удаление ДЗ</b>\n<i>Выберите предмет:</i>", reply_markup=keyboard)
-            elif len(data) < 4:
+            if len(data) < 4:
                 subject = data[2]
                 sub = [sub for sub, value in LESSONS.items() if value['name'] == subject][0]
                 keyboard = types.InlineKeyboardMarkup()
@@ -271,6 +264,24 @@ def get_hw(date_start=dt.date.today(), date_stop=dt.date.today() + dt.timedelta(
     if abs(len(result) - len(header(date_start, date_stop))) < 5:
         result += 'Домашнего задания нет 🥳'
     return result
+
+
+@dp.message_handler(commands=['del'])
+async def com_del_hw(msg):
+    if checkright(msg, 'hw.edit'):
+        keyboard = types.InlineKeyboardMarkup()
+        buttons = []
+        for subject in HW.keys():
+            if len(HW[subject]) > 0:
+                buttons.append(types.InlineKeyboardButton(text=LESSONS[subject]['name'],
+                                                          callback_data=f"hwedit,del,{LESSONS[subject]['name']}"))
+        for i in range(len(buttons) // 2):
+            keyboard.row(buttons[2 * i], buttons[2 * i + 1])
+        if len(buttons) % 2 == 1:
+            keyboard.add(buttons[-1])
+        button = types.InlineKeyboardButton(text="⬅️ Назад", callback_data=f'hw,thisweek,{dt.date.today()}')
+        keyboard.add(button)
+        await msg.answer(text="✏️ <b>Удаление ДЗ</b>\n<i>Выберите предмет:</i>", reply_markup=keyboard)
 
 
 @dp.message_handler(commands=['wk'])
