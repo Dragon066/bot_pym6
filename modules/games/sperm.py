@@ -177,6 +177,7 @@ def sperm_get_info(id):
         text += f"\n\n🏖 <i>До следующего камшота: {time}</i>"
     else:
         text += f"\n\n🤏 Подростите письку и сможете кончить!"
+    text += sperm_get_available(id)
     if not SPERM[id]['dickname']:
         text += f"\n\n✏️ С помощью 100 мл 🥛 и /rename вы можете переименовать свой 4leн 👀"
     return text
@@ -245,6 +246,19 @@ def sperm_get_random(id):
     return rnd.uniform(0, 1) <= (5 + 1.125 * n) / 100
 
 
+def sperm_get_available(id):
+    text = []
+    if sperm_get_price_power(id) <= SPERM[id]['bak'] and SPERM[id]['power_level'] < 40:
+        text.append('Можно увеличить силу дрочки! 💪')
+    if sperm_get_price_time(id) <= SPERM[id]['bak'] and SPERM[id]['time_level'] < 40:
+        text.append('Можно увеличить зависимость! 💨')
+    if len(text) > 0:
+        res = '\n\n' + '\n'.join(text)
+    else:
+        res = ''
+    return res
+
+
 def sperm_create_default(msg):
     global SPERM
     id = msg.from_user.id
@@ -285,7 +299,8 @@ async def com_cum(msg):
                 await msg.reply(
                     f'😲😲😲 <b>ВЫ КОНЧИЛИ!!!!</b> 💦💦💦\n\n<b>+{toadd} мл</b> в spermобак 🥛\n'
                     f'Всего: <b>{SPERM[id]["bak"]} мл</b>\n\n'
-                    f'Оставшаяся длина писюнчика: <b>{SPERM[id]["len"]} см</b> (-{tominus}см)',
+                    f'Оставшаяся длина писюнчика: <b>{SPERM[id]["len"]} см</b> (-{tominus}см)'
+                    f'{sperm_get_available(id)}',
                 disable_notification=True)
             else:
                 toadd = round(2 * sperm_get_rate(id) * SPERM[id]['len'] * 0.2 * 0.5, 2)
@@ -293,7 +308,7 @@ async def com_cum(msg):
                 SPERM[id]['bak'] += toadd
                 SPERM[id]['bak'] = round(SPERM[id]['bak'], 2)
                 await msg.reply(
-                    f'😲😲😲 <b>МЕГА КАМШОТ Х2!!!!</b> 💦💦💦\n<i>Ваше мастерство поражает!</i>\n<b>+{toadd} мл</b> в spermобак 🥛\nВсего: <b>{SPERM[id]["bak"]} мл</b>\n\nОставшаяся длина писюнчика: <b>{SPERM[id]["len"]} см</b> (-{tominus}см)',
+                    f'😲😲😲 <b>МЕГА КАМШОТ Х2!!!!</b> 💦💦💦\n<i>Ваше мастерство поражает!</i>\n<b>+{toadd} мл</b> в spermобак 🥛\nВсего: <b>{SPERM[id]["bak"]} мл</b>\n\nОставшаяся длина писюнчика: <b>{SPERM[id]["len"]} см</b> (-{tominus}см){sperm_get_available(id)}',
                 disable_notification=True)
             SPERM[id]['cum_count'] += 1
             save_sperm()
@@ -336,7 +351,8 @@ async def com_masturbate(msg):
                 await msg.reply(f"ВЫ ЗАСТАВИЛИ <b>{msg.reply_to_message.from_user.first_name}</b> ПОТЕЧЬ УФФФФ 💦💦💦💦\n\n"
                                 f"Вы, как истинный ценитель dro4ки, помогли собрать кончу в баночку:\n"
                                 f"<b>+{round(toadd * 0.5, 2)} мл</b> в spermoбак 🥛\n"
-                                f"Всего: <b>{SPERM[id]['bak']} мл</b>", disable_notification=True)
+                                f"Всего: <b>{SPERM[id]['bak']} мл</b>"
+                                f"{sperm_get_available(id)}", disable_notification=True)
             save_sperm()
         else:
             time = str(dt.datetime.fromtimestamp(int(SPERM[id]['time'])) + dt.timedelta(
@@ -365,7 +381,8 @@ async def com_masturbate(msg):
                 await msg.reply(f"Вы потекли 💦💦😢\n\n"
                                 f"Но это даже хорошо! Вы немного, конечно, случайно, кончили:\n"
                                 f"<b>+{round(toadd * 0.4, 2)} мл</b> в spermoбак 🥛\n"
-                                f"Всего: <b>{SPERM[id]['bak']} мл</b>", disable_notification=True)
+                                f"Всего: <b>{SPERM[id]['bak']} мл</b>"
+                                f"{sperm_get_available(id)}", disable_notification=True)
             save_sperm()
         else:
             time = str(dt.datetime.fromtimestamp(int(SPERM[id]['time'])) + dt.timedelta(
