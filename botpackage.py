@@ -112,3 +112,6 @@ if config['MODULES']['crossword']:
 
 if config['MODULES']['chatgpt']:
     from modules.chatgpt import *
+
+if config['MODULES']['weather']:
+    from modules.weather import *
