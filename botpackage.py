@@ -49,6 +49,7 @@ SEND_HD = config['SETTINGS']['send_hd']
 SEND_STATS = config['SETTINGS']['send_stats']
 SEND_TOPS = config['SETTINGS']['send_tops']
 SEND_FACTS = config['SETTINGS']['send_facts']
+SEND_WEATHER = config['SETTINGS']['send_weather']
 SILENCE = True
 
 USERS_path = config['PATH']['users']
@@ -101,6 +102,9 @@ if config['MODULES']['code']:
 if config['MODULES']['open']:
     from modules.open import *
 
+if config['MODULES']['weather']:
+    from modules.weather import *
+
 if config['MODULES']['sperm']:
     from modules.games.sperm import *
 
@@ -112,6 +116,3 @@ if config['MODULES']['crossword']:
 
 if config['MODULES']['chatgpt']:
     from modules.chatgpt import *
-
-if config['MODULES']['weather']:
-    from modules.weather import *

@@ -27,6 +27,16 @@ try:
     async def get_sperm_top():
         await bot.send_message(ADM_GROUP, sperm_get_top())
 
+    async def get_weather():
+        capt = '🌪 <b>Погодка на недельку, мяу</b>\n\n'
+        info = get_weather_raw()[0]
+        capt += f"<b>Сегодня</b>, {info['day']} {info['month']}\n\n"
+        capt += get_weather_info(info)
+        info = get_weather_raw()[1]
+        capt += f"<b>Завтра</b>, {info['day']} {info['month']}\n\n"
+        capt += get_weather_info(info)
+        await bot.send_photo(chat_id=ADM_GROUP, photo=get_weather_stat(), caption=capt)
+
     async def sched_funcs_00():
         if SEND_HD:
             if config['MODULES']['holidays']:
@@ -37,6 +47,9 @@ try:
             await get_stats_()
         if SEND_TOPS:
             await get_sperm_top()
+        if SEND_WEATHER:
+            await get_weather()
+
 
     scheduler.add_job(sched_funcs_00, 'cron', hour=0, minute=0)
 
