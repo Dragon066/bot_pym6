@@ -35,7 +35,7 @@ try:
         info = get_weather_raw()[1]
         capt += f"<b>Завтра</b>, {info['day']} {info['month']}\n\n"
         capt += get_weather_info(info)
-        await bot.send_photo(chat_id=ADM_GROUP, photo=get_weather_stat(), caption=capt)
+        await bot.send_photo(chat_id=ADM_GROUP, photo=get_weather_stat(get_weather_raw()), caption=capt)
 
     async def sched_funcs_00():
         if SEND_HD:
