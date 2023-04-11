@@ -21,7 +21,7 @@ try:
         clear_stats()
 
     async def get_facts_():
-        text = '<b>5 случайных фактов:</b>\n• ' + '\n\n• '.join(get_random_fact(5))
+        text = '<b>❔ А вы знали, что...</b>\n\n➡️ ' + get_random_fact(1)[0]
         await bot.send_message(ADM_GROUP, text)
 
     async def get_sperm_top():
@@ -41,14 +41,16 @@ try:
         if SEND_HD:
             if config['MODULES']['holidays']:
                 await sched_holidays()
-        if SEND_FACTS:
-            await get_facts_()
         if SEND_STATS:
             await get_stats_()
         if SEND_TOPS:
             await get_sperm_top()
-        if SEND_WEATHER:
-            await get_weather()
+
+    if SEND_WEATHER:
+        scheduler.add_job(get_weather, 'cron', hour=6, minute=0)
+
+    if SEND_FACTS:
+        scheduler.add_job(get_facts_, 'interval', hours=5)
 
 
     scheduler.add_job(sched_funcs_00, 'cron', hour=0, minute=0)

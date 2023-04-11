@@ -36,7 +36,7 @@ def get_weather_sign(weather_old):
     if 'overcast' in weather:
         return ('Дико облачно', '☁️')
     if 'rain' in weather:
-        return ('Дождливо :<', '🌧')
+        return ('Дождливо :(', '🌧')
     if 'clear' in weather:
         return ('Солнечно!!', '☀️')
     return weather_old
