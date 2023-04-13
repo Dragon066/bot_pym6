@@ -9,9 +9,9 @@ if config['MODULES']['gmail']:
 
 try:
     if config['MODULES']['ruz']:
-        scheduler.add_job(update_ruz, 'interval', minutes=5)
+        scheduler.add_job(update_ruz, 'interval', minutes=5, misfire_grace_time=60)
     if config['MODULES']['gmail']:
-        scheduler.add_job(gmail_update_msgs, 'interval', minutes=1)
+        scheduler.add_job(gmail_update_msgs, 'interval', minutes=1, misfire_grace_time=60)
 
     async def sched_holidays():
         await bot.send_message(ADM_GROUP, get_holidays())
@@ -47,13 +47,13 @@ try:
             await get_sperm_top()
 
     if SEND_WEATHER:
-        scheduler.add_job(get_weather, 'cron', hour=6, minute=0)
+        scheduler.add_job(get_weather, 'cron', hour=6, minute=0, misfire_grace_time=60)
 
     if SEND_FACTS:
-        scheduler.add_job(get_facts_, 'interval', hours=5)
+        scheduler.add_job(get_facts_, 'interval', hours=5, misfire_grace_time=60)
 
 
-    scheduler.add_job(sched_funcs_00, 'cron', hour=0, minute=0)
+    scheduler.add_job(sched_funcs_00, 'cron', hour=0, minute=0, misfire_grace_time=60)
 
     log.info('Планировщик запущен')
 except Exception as err:
