@@ -85,7 +85,7 @@ async def chatgpt_get(id, message, single=False):
     if single:
         response = await openai_async.chat_complete(
             CHAT_TOKEN,
-            timeout=60,
+            timeout=180,
             payload={
                 'model': "gpt-3.5-turbo",
                 'messages': [{'role': 'user', 'content': message}],
@@ -105,7 +105,7 @@ async def chatgpt_get(id, message, single=False):
             tokens = len(enc_text.encode(text))
         response = await openai_async.chat_complete(
             CHAT_TOKEN,
-            timeout=60,
+            timeout=180,
             payload={
                 'model': "gpt-3.5-turbo",
                 'messages': MESSAGES[id]['content'],
