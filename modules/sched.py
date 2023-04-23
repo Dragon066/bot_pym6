@@ -5,6 +5,8 @@ if config['MODULES']['ruz']:
     from modules.ruz import update_ruz
 if config['MODULES']['gmail']:
     from modules.gmail import gmail_update_msgs
+if config['MODULES']['cats_congrat']:
+    from modules.cats_congrat import send_cats_congrat
 
 
 try:
@@ -12,6 +14,8 @@ try:
         scheduler.add_job(update_ruz, 'interval', minutes=5, misfire_grace_time=60)
     if config['MODULES']['gmail']:
         scheduler.add_job(gmail_update_msgs, 'interval', minutes=1, misfire_grace_time=60)
+    if SEND_CATS:
+        scheduler.add_job(send_cats_congrat, 'interval', minutes=5, misfire_grace_time=60)
 
     async def sched_holidays():
         await bot.send_message(ADM_GROUP, get_holidays())

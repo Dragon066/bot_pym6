@@ -19,6 +19,7 @@ import json
 import hashlib
 import asyncio
 from io import StringIO, BytesIO
+from bs4 import BeautifulSoup
 from apscheduler.schedulers.asyncio import AsyncIOScheduler
 
 from modules.logger import log
@@ -50,6 +51,7 @@ SEND_STATS = config['SETTINGS']['send_stats']
 SEND_TOPS = config['SETTINGS']['send_tops']
 SEND_FACTS = config['SETTINGS']['send_facts']
 SEND_WEATHER = config['SETTINGS']['send_weather']
+SEND_CATS = config['SETTINGS']['send_cats']
 SILENCE = True
 
 USERS_path = config['PATH']['users']
@@ -58,6 +60,7 @@ MEDIA_path = config['PATH']['media']
 RUZ_path = config['PATH']['ruz']
 FILES_path = config['PATH']['files']
 STATS_path = config['PATH']['stats']
+CATSHASH_path = config['PATH']['catshash']
 
 users_backup_path = config['PATH']['users_backup']
 homework_backup_path = config['PATH']['homework_backup']
@@ -107,6 +110,9 @@ if config['MODULES']['weather']:
 
 if config['MODULES']['sperm']:
     from modules.games.sperm import *
+
+if config['MODULES']['cats_congrat']:
+    from modules.cats_congrat import *
 
 if config['MODULES']['sched']:
     from modules.sched import *
