@@ -464,7 +464,7 @@ def sperm_get_top():
     top = sorted(top, key=lambda x: x[1], reverse=True)[:10]
     text = f"🥳 <b>Мега топ пиписек</b>:\n"
     for i, person in enumerate(top):
-        text += f"\n{i + 1}) <b>{person[0]}</b> — {person[1]} см"
+        text += f"\n{i + 1}) <b>{person[0]}</b> — {sperm_beauty_len(person[1])}"
     return text
 
 
