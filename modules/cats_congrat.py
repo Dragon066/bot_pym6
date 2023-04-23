@@ -40,8 +40,6 @@ async def callback_cats_congrat(call):
         hash = call.data.split(',')[1]
         photo = CATSHASH[hash]['photos'][0]
         capt = CATSHASH[hash]['text'] if call.data.split(',')[2] == 'True' else None
-        from pprint import pprint
-        pprint(dict(call))
         await bot.send_photo(chat_id=GROUP, photo=photo, caption=capt)
         text = (call.message.caption if call.message.caption else '') + '\n\n--------\n' + f'<i>Отправлено by <b>{call["from"]["first_name"]}</b></i>'
         await bot.edit_message_caption(message_id=call.message.message_id, chat_id=call.message.chat.id,
