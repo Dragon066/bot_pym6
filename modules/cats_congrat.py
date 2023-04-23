@@ -46,40 +46,42 @@ async def callback_cats_congrat(call):
                                     caption=text)
 
 
-def get_cats_congrat(url='https://vk.com/m4a12'):
+async def get_cats_congrat(url='https://vk.com/m4a12'):
     result = {}
-    req = requests.get(url)
-    soup = BeautifulSoup(req.text, 'lxml')
 
-    posts = soup.find_all('div', class_='wall_item')
+    async with aiohttp.ClientSession() as session:
+        async with session.get(url) as response:
+            soup = BeautifulSoup(await response.text(), 'lxml')
 
-    for post in posts:
-        try:
-            temp = post.find('div', {'class': 'wi_body'})
-            try:
-                text = temp.find('div', {'class': 'pi_text'}).text
-            except:
-                text = None
-            photos = temp.find_all('img')
-            photos = [photo['src'] for photo in photos if 'https://sun' in photo['src']]
-            hash = str(text) + ''.join(photos)
-            hash = hashlib.md5(hash.encode()).hexdigest()
-            if hash not in CATSHASH:
-                result[hash] = {
-                    'text': text,
-                    'photos': photos
-                }
-                CATSHASH[hash] = result[hash]
-                save_catshash()
-        except Exception as ex:
-            print(ex)
-            continue
+            posts = soup.find_all('div', class_='wall_item')
+
+            for post in posts:
+                try:
+                    temp = post.find('div', {'class': 'wi_body'})
+                    try:
+                        text = temp.find('div', {'class': 'pi_text'}).text
+                    except:
+                        text = None
+                    photos = temp.find_all('img')
+                    photos = [photo['src'] for photo in photos if 'https://sun' in photo['src']]
+                    hash = str(text) + ''.join(photos)
+                    hash = hashlib.md5(hash.encode()).hexdigest()
+                    if hash not in CATSHASH:
+                        result[hash] = {
+                            'text': text,
+                            'photos': photos
+                        }
+                        CATSHASH[hash] = result[hash]
+                        save_catshash()
+                except Exception as ex:
+                    print(ex)
+                    continue
 
     return result
 
 
 async def send_cats_congrat():
-    data = get_cats_congrat()
+    data = await get_cats_congrat()
 
     if len(data) > 0:
         for hash, post in data.items():

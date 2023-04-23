@@ -18,6 +18,7 @@ import os
 import json
 import hashlib
 import asyncio
+import aiohttp
 from io import StringIO, BytesIO
 from bs4 import BeautifulSoup
 from apscheduler.schedulers.asyncio import AsyncIOScheduler
