@@ -133,9 +133,9 @@ def sperm_get_keyboard(id):
 def sperm_get_shop(id):
     text = f"🍆 <b>{SPERM[id]['name']}'s dick</b>\n\n" if not SPERM[id][
         'dickname'] else f"<b>{SPERM[id]['dickname']}</b>\n\n"
-    text += f"📏 Длина вашей письки: <b>{SPERM[id]['len']} см</b>\n" \
+    text += f"📏 Длина вашей письки: <b>{sperm_beauty_len(SPERM[id]['len'])}</b>\n" \
             f"🌀 Опыт: <b>{SPERM[id]['exp']} exp</b>\n" \
-            f"🥛 Спермобак: <b>{SPERM[id]['bak']} мл</b>\n\n" \
+            f"🥛 Спермобак: <b>{sperm_beauty_volume(SPERM[id]['bak'])}</b>\n\n" \
             f"💪 Уровень дрочки: <b>{SPERM[id]['power_level']}</b>\n" \
             f"💪 {':' * (SPERM[id]['power_level'] - 1)}|{'.' * (40 - SPERM[id]['power_level'])}\n" \
             f"🕔 Уровень зависимости: <b>{SPERM[id]['time_level']}</b> <i>({sperm_get_time(id)} мин)</i>\n" \
@@ -149,9 +149,9 @@ def sperm_get_shop(id):
 
 def sperm_get_info(id):
     text = f"🍆 <b>{SPERM[id]['name']}'s dick</b>\n\n" if not SPERM[id]['dickname'] else f"<b>{SPERM[id]['dickname']}</b>\n\n"
-    text += f"📏 Длина вашей письки: <b>{SPERM[id]['len']} см</b>\n" \
+    text += f"📏 Длина вашей письки: <b>{sperm_beauty_len(SPERM[id]['len'])}</b>\n" \
            f"🌀 Опыт: <b>{SPERM[id]['exp']} exp</b>\n" \
-           f"🥛 Спермобак: <b>{SPERM[id]['bak']} мл</b>\n\n" \
+           f"🥛 Спермобак: <b>{sperm_beauty_volume(SPERM[id]['bak'])}</b>\n\n" \
            f"💪 Уровень дрочки: <b>{SPERM[id]['power_level']}</b>\n" \
            f"💪 {':'*(SPERM[id]['power_level'] - 1)}|{'.'*(40 - SPERM[id]['power_level'])}\n" \
            f"🕔 Уровень зависимости: <b>{SPERM[id]['time_level']}</b> <i>({sperm_get_time(id)} мин)</i>\n" \
@@ -186,9 +186,9 @@ def sperm_get_info(id):
 def sperm_get_info_another(id):
     text = f"🍆 <b>{SPERM[id]['name']}'s dick</b>\n\n" if not SPERM[id][
         'dickname'] else f"<b>{SPERM[id]['dickname']}</b>\n\n"
-    text += f"📏 Длина пиписьки: <b>{SPERM[id]['len']} см</b>\n" \
+    text += f"📏 Длина пиписьки: <b>{sperm_beauty_len(SPERM[id]['len'])}</b>\n" \
            f"🌀 Опыт: <b>{SPERM[id]['exp']} exp</b>\n" \
-           f"🥛 Спермобак: <b>{SPERM[id]['bak']} мл</b>\n\n" \
+           f"🥛 Спермобак: <b>{sperm_beauty_volume(SPERM[id]['bak'])}</b>\n\n" \
            f"💪 Уровень дрочки: <b>{SPERM[id]['power_level']}</b>\n" \
            f"💪 {':'*(SPERM[id]['power_level'] - 1)}|{'.'*(40 - SPERM[id]['power_level'])}\n" \
            f"🕔 Уровень зависимости: <b>{SPERM[id]['time_level']}</b> <i>({sperm_get_time(id)} мин)</i>\n" \
@@ -246,6 +246,32 @@ def sperm_get_random(id):
     return rnd.uniform(0, 1) <= (5 + 1.125 * n) / 100
 
 
+def sperm_beauty_len(s):
+    lens = ['см', 'м', 'км', 'Мм', 'Гм', 'Тм', 'Пм', 'Эм', 'Зм', 'Им', 'Рн', 'Квм']
+    if s > 100:
+        res = lens[1]
+        s /= 100
+    else:
+        return str(s) + ' ' + lens[0]
+    i = 1
+    while s > 1000:
+        i += 1
+        res = lens[i]
+        s /= 1000
+    return str(round(s, 2)) + ' ' + res
+
+
+def sperm_beauty_volume(s):
+    lens = ['мл', 'л', 'кл', 'Мл', 'Гл', 'Тл', 'Пл', 'Эл', 'Зл', 'Ил']
+    i = 0
+    res = lens[i]
+    while s > 1000:
+        i += 1
+        res = lens[i]
+        s /= 1000
+    return str(round(s, 2)) + ' ' + res
+
+
 def sperm_get_available(id):
     text = []
     if sperm_get_price_power(id) <= SPERM[id]['bak'] and SPERM[id]['power_level'] < 40:
@@ -297,9 +323,9 @@ async def com_cum(msg):
                 SPERM[id]['bak'] += toadd
                 SPERM[id]['bak'] = round(SPERM[id]['bak'], 2)
                 await msg.reply(
-                    f'😲😲😲 <b>ВЫ КОНЧИЛИ!!!!</b> 💦💦💦\n\n<b>+{toadd} мл</b> в spermобак 🥛\n'
-                    f'Всего: <b>{SPERM[id]["bak"]} мл</b>\n\n'
-                    f'Оставшаяся длина писюнчика: <b>{SPERM[id]["len"]} см</b> (-{tominus}см)'
+                    f'😲😲😲 <b>ВЫ КОНЧИЛИ!!!!</b> 💦💦💦\n\n<b>+{sperm_beauty_volume(toadd)}</b> в spermобак 🥛\n'
+                    f'Всего: <b>{sperm_beauty_volume(SPERM[id]["bak"])}</b>\n\n'
+                    f'Оставшаяся длина писюнчика: <b>{sperm_beauty_len(SPERM[id]["len"])}</b> (-{sperm_beauty_len(tominus)})'
                     f'{sperm_get_available(id)}',
                 disable_notification=True)
             else:
@@ -308,7 +334,7 @@ async def com_cum(msg):
                 SPERM[id]['bak'] += toadd
                 SPERM[id]['bak'] = round(SPERM[id]['bak'], 2)
                 await msg.reply(
-                    f'😲😲😲 <b>МЕГА КАМШОТ Х2!!!!</b> 💦💦💦\n<i>Ваше мастерство поражает!</i>\n<b>+{toadd} мл</b> в spermобак 🥛\nВсего: <b>{SPERM[id]["bak"]} мл</b>\n\nОставшаяся длина писюнчика: <b>{SPERM[id]["len"]} см</b> (-{tominus}см){sperm_get_available(id)}',
+                    f'😲😲😲 <b>МЕГА КАМШОТ Х2!!!!</b> 💦💦💦\n<i>Ваше мастерство поражает!</i>\n<b>+{sperm_beauty_volume(toadd)}</b> в spermобак 🥛\nВсего: <b>{sperm_beauty_volume(SPERM[id]["bak"])}</b>\n\nОставшаяся длина писюнчика: <b>{sperm_beauty_len(SPERM[id]["len"])}</b> (-{sperm_beauty_len(tominus)}){sperm_get_available(id)}',
                 disable_notification=True)
             SPERM[id]['cum_count'] += 1
             save_sperm()
@@ -340,8 +366,8 @@ async def com_masturbate(msg):
             SPERM[id]['masturbate_count'] += 1
             SPERM[msg.from_user.id]['exp'] += round(add_exp * 0.2)
             await msg.reply(f"<b>{msg.from_user.first_name}</b> подрочил <b>{msg.reply_to_message.from_user.first_name}</b>! ❤️❤️❤️\n\n"
-                            f"📏 Писька <b>{msg.reply_to_message.from_user.first_name}</b> увеличилась на <b>{toadd} см</b>\n"
-                            f"Теперь длина этого dick'a: <b>{SPERM[id]['len']} см</b> 👀\n\n"
+                            f"📏 Писька <b>{msg.reply_to_message.from_user.first_name}</b> увеличилась на <b>{sperm_beauty_len(toadd)}</b>\n"
+                            f"Теперь длина этого dick'a: <b>{sperm_beauty_len(SPERM[id]['len'])}</b> 👀\n\n"
                             f"Also, <b>+{add_exp} exp 🌀</b> для <b>{msg.reply_to_message.from_user.first_name}</b> и"
                             f" <b>+{round(add_exp * 0.2)} exp 🌀</b> для <b>{msg.from_user.first_name}</b>",
                             disable_notification=True)
@@ -350,8 +376,8 @@ async def com_masturbate(msg):
                 SPERM[id]['bak'] = round(SPERM[id]['bak'], 2)
                 await msg.reply(f"ВЫ ЗАСТАВИЛИ <b>{msg.reply_to_message.from_user.first_name}</b> ПОТЕЧЬ УФФФФ 💦💦💦💦\n\n"
                                 f"Вы, как истинный ценитель dro4ки, помогли собрать кончу в баночку:\n"
-                                f"<b>+{round(toadd * 0.5, 2)} мл</b> в spermoбак 🥛\n"
-                                f"Всего: <b>{SPERM[id]['bak']} мл</b>"
+                                f"<b>+{sperm_beauty_volume(round(toadd * 0.5, 2))}</b> в spermoбак 🥛\n"
+                                f"Всего: <b>{sperm_beauty_volume(SPERM[id]['bak'])}</b>"
                                 f"{sperm_get_available(id)}", disable_notification=True)
             save_sperm()
         else:
@@ -372,16 +398,16 @@ async def com_masturbate(msg):
             add_exp = sperm_get_exp(id)
             SPERM[id]['exp'] += add_exp
             SPERM[id]['masturbate_count'] += 1
-            await msg.reply(f"Ох хорошо! 😪\n\n📏 Ваша писька увеличилась на <b>{toadd} см</b>\n"
-                            f"❤️ Теперь длина вашего 4leна: <b>{SPERM[id]['len']} см\n\n</b>"
+            await msg.reply(f"Ох хорошо! 😪\n\n📏 Ваша писька увеличилась на <b>{sperm_beauty_len(toadd)}</b>\n"
+                            f"❤️ Теперь длина вашего 4leна: <b>{sperm_beauty_len(SPERM[id]['len'])}\n\n</b>"
                             f"Also, <b>+{add_exp} exp</b> 🌀", disable_notification=True)
             if sperm_get_random(id):
-                SPERM[id]['bak'] += toadd * 0.5
+                SPERM[id]['bak'] += toadd * 0.4
                 SPERM[id]['bak'] = round(SPERM[id]['bak'], 2)
                 await msg.reply(f"Вы потекли 💦💦😢\n\n"
                                 f"Но это даже хорошо! Вы немного, конечно, случайно, кончили:\n"
-                                f"<b>+{round(toadd * 0.4, 2)} мл</b> в spermoбак 🥛\n"
-                                f"Всего: <b>{SPERM[id]['bak']} мл</b>"
+                                f"<b>+{sperm_beauty_volume(round(toadd * 0.4, 2))}</b> в spermoбак 🥛\n"
+                                f"Всего: <b>{sperm_beauty_volume(SPERM[id]['bak'])}</b>"
                                 f"{sperm_get_available(id)}", disable_notification=True)
             save_sperm()
         else:
