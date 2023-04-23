@@ -3,7 +3,6 @@ import hashlib
 from botpackage import *
 from modules.files import *
 
-from bs4 import BeautifulSoup
 import base64
 import os.path
 from lxml import html

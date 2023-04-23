@@ -1,5 +1,4 @@
 from botpackage import *
-from bs4 import BeautifulSoup
 
 @dp.message_handler(commands=['holidays', 'hd'])
 async def com_get_holidays(msg):
