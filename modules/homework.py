@@ -60,15 +60,15 @@ def get_keyboard_dates(start, id):
         subject = [sub for sub, value in LESSONS.items() if value['name'] == temp_hw[id]['subject']][0]
         from modules.ruz import table
         if date1.replace('-', '.') in table:
+            vals = []
             for time, value in table[date1.replace('-', '.')].items():
-                vals = []
                 if value['discipline'] == subject:
                     vals.append(value['work'][0])
             if len(vals) > 0:
                 text1 = f'({",".join(vals)}) ' + '👉 ' + text1
         if date2.replace('-', '.') in table:
+            vals = []
             for time, value in table[date2.replace('-', '.')].items():
-                vals = []
                 if value['discipline'] == subject:
                     vals.append(value['work'][0])
             if len(vals) > 0:
