@@ -64,7 +64,7 @@ async def callback_sperm(call):
                 await call.answer('Не хватает спермы! 😡')
     elif call.data.split(',')[1] == 'lvlup_time':
         id = int(call.data.split(',')[2])
-        if id == call.from_user.id and SPERM[id]['power_level'] < 40:
+        if id == call.from_user.id and SPERM[id]['time_level'] < 40:
             if SPERM[id]['bak'] >= sperm_get_price_time(id):
                 SPERM[id]['bak'] -= sperm_get_price_time(id)
                 SPERM[id]['bak'] = round(SPERM[id]['bak'], 2)
